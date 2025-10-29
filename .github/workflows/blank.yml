@@ -1,0 +1,63 @@
+name: DBO Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      execType:
+        description: '[必填] 執行類型。日間排程選項系統會以執行當下的分鐘判斷小於 59 為下一時段，等於 59 則下二時段 (17:29 開始為明日0900)'
+        required: true
+        default: '日間排程'
+        type: choice
+        options:
+          - '日間排程'
+          - '立即執行'
+          - '夜間排程'
+      commitHashs:
+        description: '[必填] 提交雜湊值 (今日內)，格式 7-40 碼英數字 (逗號分隔)，用於指定版本變更檔案'
+        required: true
+        default: ''
+      mailCC:
+        description: '[必填] 郵件副本，使用員工編號 (逗號分隔)，至少 1 位主管以上'
+        required: true
+        default: ''
+      executeServer:
+        description: '[必填] 執行主機'
+        required: true
+        default: 'Product'
+        type: choice
+        options:
+          - 'Product'
+          - 'Report'
+      customTime:
+        description: '[選填] 日間排程自訂時間'
+        required: false
+        default: '請選擇 (選填)'
+        type: choice
+        options:
+          - '請選擇 (選填)'
+          - '0900'
+          - '1000'
+          - '1100'
+          - '1200'
+          - '1300'
+          - '1400'
+          - '1500'
+          - '1600'
+          - '1700'
+          - '1730'
+          - '明天0900'
+      mailSubjectText:
+        description: '[選填] 郵件主旨文字，可覆寫系統取的提交訊息'
+        required: false
+        default: ''
+
+jobs:
+  dbo_job:
+    uses: kk789kk856-cmyk/CI-Temlpate/.github/workflows/DBO.yml@main
+    with:
+      execType: ${{ github.event.inputs.execType }}
+      commitHashs: ${{ github.event.inputs.commitHashs }}
+      mailCC: ${{ github.event.inputs.mailCC }}
+      executeServer: ${{ github.event.inputs.executeServer }}
+      customTime: ${{ github.event.inputs.customTime }}
+      mailSubjectText: ${{ github.event.inputs.mailSubjectText }}
