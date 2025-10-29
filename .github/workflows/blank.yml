@@ -5,7 +5,6 @@ on:
     inputs:
       execType:
         description: '[必填] 執行類型。日間排程選項系統會以執行當下的分鐘判斷小於 59 為下一時段，等於 59 則下二時段 (17:29 開始為明日0900)'
-        required: true
         default: '日間排程'
         type: choice
         options:
@@ -14,15 +13,12 @@ on:
           - '夜間排程'
       commitHashs:
         description: '[必填] 提交雜湊值 (今日內)，格式 7-40 碼英數字 (逗號分隔)，用於指定版本變更檔案'
-        required: true
         default: ''
       mailCC:
         description: '[必填] 郵件副本，使用員工編號 (逗號分隔)，至少 1 位主管以上'
-        required: true
         default: ''
       executeServer:
         description: '[必填] 執行主機'
-        required: true
         default: 'Product'
         type: choice
         options:
